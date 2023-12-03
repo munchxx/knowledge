@@ -1,0 +1,28 @@
+#article-container {
+    margin: 0 25vw;
+}
+
+#article-title, #article-date {
+    font-family: Arial, sans-serif;
+}
+
+#article-content {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#home-main {
+    margin: 0 25vw;
+    font-family: Arial, sans-serif;
+}
+
+#home-main a {
+    display: block;
+    margin: 20px 0;
+    padding: 0 20px;
+    text-decoration: none;
+    border: 2px solid black;
+}
+
+#home-main h2, #home-main p {
+    margin: 10px 0;
+}
