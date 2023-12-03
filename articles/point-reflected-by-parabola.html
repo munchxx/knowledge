@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+           tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+        });
+     </script>
+
+    <link rel="stylesheet" href="/stylesheet/styles.css">
+
+    <title>Point Reflected by Parabola</title>
+</head>
+<body>
+    <div id="article-container">
+        <header>
+            <h1 id="article-title">Point Reflected by Parabola</h1>
+            <p id="article-date">Proposed 03/12/2023; solved and written 04/12/2023</p>
+        </header>
+        <main id="article-content">
+            A point at \((1,0)\) of speed \(1ms^{-1}\) initially travels in the positive \(x\)-direction, and is reflected by parabola \(y=x^2\). Propose a function for \(x(t)\) and \(y(t)\), the position of the point at time \(t\).
+            <br><br>
+            We will first investigate the basic parametric equation: a point moving in a straight line. Let's assume a point at \((0,0)\) moves strictly in the \(+x\)-direction at a speed of \(1ms^{-1}\). Knowing the \(y\)-value is always \(0\), we can represent the point using the  equations:
+            \[
+            \begin{align*}
+            x(t) &= t \\
+            y(t) &= 0
+            \end{align*}
+            \]
+            In the problem, we need to change the direction of the point at some time \(t\). The simplest case is supposing the point oscillates between two points, for example \((0,0)\) and \((1,0)\). One way we may approach the equations for this point is realising that the \(x\)-value of the point follows the graph of an absolute value until \(t=2\). Thus, after applying appropriate transformations we get:
+            \[
+            \begin{align*}
+            x(t) &= -|t-1|+1 & 0 < t < 2 \\
+            y(t) &= 0
+            \end{align*}
+            \]
+            In order for the function to loop, we must introduce a new variable. This allows us to "reset" \(t\) by subtracting off the value before the start of the period. Applying this gives:
+            \[
+            \begin{align*}
+            x(t) &= |t-2n-1|+1 & 2n < t < 2n+2 \\
+            y(t) &= 0
+            \end{align*}
+            \]
+            where \(n\in \mathbb{W}\). However, the problem we are dealing with will have asymmetrical slopes, unlike the absolute value. It is thus better to use a piecewise function of two linear equations to represent the path.
+            \[
+            \begin{align*}
+            x(t) &=
+            \begin{cases} 
+            t-2n & 2n \leq t \leq 2n+1 \\
+            2n+2-t & 2n+1 < t \leq 2n+2
+            \end{cases} \\
+            y(t) &= 0
+            \end{align*}
+            \]
+            Applying this in 2D requires setting both \(x\) and \(y\) to their appropriate functions. We can use the equation \(y=mx\), where \(x\) is the piecewise function described above, to represent the path of a point from (0,0) in a gradient of \(m\) which travels a distance of one unit. We represent the path between \((x_1, y_1)\) to \((x_2, y_2)\) by using the scalar parametric equation:
+            \[
+            \begin{align*}
+            x(t) &= x_1 - tx_1 + tx_2 & 0 \leq t \leq 1 \\
+            y(t) &= y_1 - ty_1 + ty_2 & 0 \leq t \leq 1 \\
+            \end{align*}
+            \]
+            We need to adjust \(t\) so that \((x_2, y_2)\) is reached when \(t\) is equal to the distance travelled, since the speed is \(1ms^{-1}\). This is given by \(d_{p_1p_2}=\sqrt{(y_2-y_1)^2+(x_2-x_1)^2}\), and we get:
+            \[
+            \begin{align*}
+            x(t) &= x_1 - \frac{t}{d_{p_1p_2}}x_1 + \frac{t}{d_{p_1p_2}}x_2 & 0 \leq t \leq d_{p_1p_2} \\
+            y(t) &= y_1 - \frac{t}{d_{p_1p_2}}y_1 + \frac{t}{d_{p_1p_2}}y_2 & 0 \leq t \leq d_{p_1p_2} \\
+            \end{align*}
+            \]
+            To join two of these paths together, we can create a piecewise function of each path:
+            \[
+            x(t)=
+            \begin{cases} 
+            x_1 - \frac{t}{d_{p_1p_2}}x_1 + \frac{t}{d_{p_1p_2}}x_2 & 0 \leq t < d_{p_1p_2} \\
+            x_2 - \frac{t}{d_{p_2p_3}}x_2 + \frac{t}{d_{p_2p_3}}x_3 & d_{p_1p_2} \leq t \leq d_{p_1p_2}+ d_{p_2p_3}
+            \end{cases}
+            \]
+            and this will be similar for \(y(t)\).
+            <br><br>
+            We now derive a sequence of points on the parabola in the path of the point. Given the slope of the incident ray, \(m_i\), and a intersection point on the parabola, we can calculate the slope of the reflected ray, \(m_r\). Notice that the angle \(-\frac{\pi}{2} < \theta \leq \frac{\pi}{2}\) that a line with gradient \(m\) makes with the \(x\)-axis must satisfy \(\tan{\theta}=m\). Denote the slope of the tangent line at the intersection point \(m_t=\frac{dx^2}{dx}=2x\) which makes the angle \(\theta_t\) with the \(x\)-axis. To calculate the reflected ray, we can rotate the axis by \(\theta_t\) to set the tangent line to the new \(x\)-axis, and then take the negative value of the image slope, before rotating the axis back.
+            \[
+            \begin{align*}
+            \theta_i' &= \theta_i-\theta_t \\
+            \tan{\theta_i'} &= \tan{(\theta_i-\theta_t)} \\
+            m_i' &= \frac{\tan{\theta_i}-\tan{\theta_t}}{1+\tan{\theta_i}\tan{\theta_t}} \\
+            m_i' &= \frac{m_i-m_t}{1+m_im_t} \\
+            m_r' &= -m_i' \\
+            m_r' &= \frac{m_t-m_i}{1+m_im_t} \\
+            \end{align*}
+            \]
+            and rotating back we get:
+            \[
+            \begin{align*}
+            m_r &= \tan{(\theta_r'+\theta_t)} \\
+            m_r &= \frac{m_r'+m_t}{1-m_r'm_t} \\
+            m_r &= \frac{\frac{m_t-m_i}{1+m_im_t}+m_t}{1-\frac{m_t-m_i}{1+m_im_t}m_t}
+            \end{align*}
+            \]
+            and after substituting \(m_t=2x\) this simplifies to:
+            \[
+            m_r = \frac{m_i-4x-4m_ix^2}{4x^2-4m_ix-1}
+            \]
+            Now we make the strong assumption that the intersection point between the reflected ray and the parabola will always be on the path (intuitive but needs proof). To find the next point \((x_2, y_2)\) we solve:
+            \[
+            \begin{align*}
+            y-y_1 &= m(x-x_1) \\
+            x^2-m_rx+m_rx_1-x_1^2 &= 0 \\
+            \end{align*}
+            \]
+            The roots will be \(x_1\) and \(x_2\), so using Vieta's formulas we get that \(x_1+x_2=m\) or \(x_2=m_r-x_1\). From the problem condition, we set up the recursive relation where \(x_1=1\), \(m_1=0\) and
+            \[
+            \begin{align*}
+            m_n &= \frac{m_{n-1}-4x_{n-1}-4m_{n-1}x_{n-1}^2}{4x_{n-1}^2-4m_{n-1}x_{n-1}-1} \\
+            x_n &= m_n-x_{n-1}
+            \end{align*}
+            \]
+            to obtain a sequence for the \(x\)-coordinates. We can substitute into the parametric equation for the path between points. We get:
+            \[
+            \begin{align*}
+            x(t) &= x_n - \frac{t - d_a}{d_b}x_n + \frac{t - d_a}{d_b}x_{n+1} & d_a \leq t < d_a + d_b \\
+            y(t) &= x_n^2 - \frac{t - d_a}{d_b}x_n^2 + \frac{t - d_a}{d_b}x_{n+1}^2 & d_a \leq t < d_a + d_b \\
+            \end{align*}
+            \]
+            where
+            \[
+            \begin{align*}
+            n & \in \mathbb{W} \\
+            d_a &= \sum_{i=1}^{n-1} \sqrt{(x_{i+1}^2-x_i^2)^2+(x_{i+1}-x_i)^2} \\
+            d_b &= \sqrt{(x_{n+1}^2-x_n^2)^2+(x_{n+1}-x_n)^2}
+            \end{align*}
+            \]
+            This is a possible solution to the problem.
+            <br><br>
+            Timings <br>
+            Math: (01:41:23) <br>
+            Write-up: (02:00:28) <br>
+            Total: (03:41:51)
+            
+        </main>
+    </div>
+</body>
+</html>
