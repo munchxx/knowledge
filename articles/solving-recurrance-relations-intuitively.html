@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+           tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+        });
+     </script>
+
+    <link rel="stylesheet" href="/stylesheet/styles.css">
+
+    <title>Solving Recurrance Relations Intuitively</title>
+</head>
+<body>
+    <div id="article-container">
+        <header>
+            <h1 id="article-title">Solving Recurrance Relations Intuitively</h1>
+            <p id="article-date">06/12/2023</p>
+        </header>
+        <main id="article-content">
+            Find an explicit formula for \(a_n\) that satisfies \(a_{3^n}=a_{2^n}+2\).
+            <br><br>
+            We begin by exploring the nature of different functions, starting with exponential functions. Notice that when an exponential function is raised to some power, the exponent is multiplied. When an exponential function is multiplied by some number, the exponent is added/subtracted to.
+            <br><br>
+            Similarly, when a logarithm is added/subtracted to, the value inside the logarithm is multiplied. When a logarithm is multipled to, the value inside is raised to a power.
+            <br><br>
+            We first transform the problem statement to a more explicit form by setting \(u=2^n\). Algebraic manipulation gives \(3^n=u^{\frac{\ln{3}}{\ln{2}}}\), and thus the problem is equivalent to \(a_{u^{\frac{\ln{3}}{\ln{2}}}}=a_{u}+2\). We will solve a more general form, \(a_{u^\alpha}=a_{u}+\beta\).
+            <br><br>
+            Notice that we require a transformation from an addition to an exponent. This requires one logarithm to go to a multiplication and another to go to an exponential.
+            <br><br>
+            Let's start with \(a_u=\log_{c_1}(\log_{c_2}(u))\). We get
+            \[
+            \begin{align*}
+            a_u + \beta &= \log_{c_1}(\log_{c_2}(u)) + \beta \\
+            &= \log_{c_1}(c_1^\beta \log_{c_2}(u)) \\
+            &= \log_{c_1}(\log_{c_2}(u^{c_1^\beta}))
+            \end{align*}
+            \]
+            and we solve that \(c_1=\alpha^{\beta^{-1}}\). After some exploration, notice that only one constant matters, so we will arbitrarily put it at the end. Substituting \(n\) for \(u\), we get:
+            \[a_n = \log_{\alpha^{\beta^{-1}}}(\ln (n)) + C\]
+            This can be simplified to
+            \[a_n = \frac{\beta \ln \ln x}{\ln \alpha} + C\]
+            and thus the solution is
+            \[a_n = \frac{2\ln \ln x}{\ln \frac{\ln{3}}{\ln{2}}} + C\]
+            <br><br>
+            Timings: <br>
+            Math: (35:00) <br>
+            Write-up: (23:00)
+        </main>
+    </div>
+</body>
+</html>
