@@ -1,0 +1,117 @@
+\documentclass{article}
+\usepackage{xskak}
+\usepackage{multicol}
+\title {Trapped Rook}
+\date{06 December 2023}
+
+\begin{document}
+\maketitle
+
+\setchessboard{boardfontsize=16pt}
+
+
+\section*{Introduction}
+Trapping the opponent's rook can greatly increase our winning chances. However, noticing:
+\begin{itemize}
+  \item When we may trap a rook
+  \item When should we trap a rook
+  \item How to take advantage of a trapped rook
+\end{itemize}
+may be difficult for players. This article aims to explore these points in both practical and aesthetic dimensions. \\
+
+\newpage
+
+\begin{multicols*}{2}
+[
+\section*{The concept in isolation}
+We begin with a few simple examples where the trapped rook is the focus of the position. \\
+]
+\newchessgame[setfen=8/8/2p1k3/p1r1p3/P7/1P2P3/1B5P/3K4 w - - 0 1]
+\begin{center}
+\textbf{Example 1}
+\chessboard \\
+\end{center}
+\mainline{ 1.e4! } traps the rook. \wmove{Kd2} and \wmove{Ba3} will follow to win the rook and the game.
+
+\newchessgame[setfen=r7/P7/8/4k3/8/7K/5BP1/8 w - - 5 3]
+\begin{center}
+\textbf{Example 2}
+\chessboard \\
+\end{center}
+Black is threatening to go into a drawn endgame by sacrificing the rook for the g-pawn. However, White has the resource \mainline{1.Bg3! Kf5 2. Bb8}, and the g-pawn will advance safely. \\
+
+The next example requires calculation to determine the evaulation of the position.
+\newchessgame[setfen=5k2/r1p5/p7/P6P/B7/8/5K2/8 w - - 0 1]
+\begin{center}
+\textbf{Example 3}
+\chessboard \\
+\end{center}
+\mainline {1.Bc6!} traps the rook. Black can win the pawn after \mainline{1...Ke7 2.h6 Kf6}, but White can go after Black's rook: \\
+ \mainline{3. Kg3 Kg6 4. Kg4 Kxh6 5. Kf5 Kg7 6. Ke6 Kf8 7. Kd7 Kf7 8. Kc8 Ke7 9. Kb8 Kd6 10. Kxa7 Kxc6 11. Kxa6} \\
+\chessboard \\
+and Black is lost due to his c7-pawn.
+\end{multicols*}
+
+\newpage
+
+\begin{multicols*}{2}
+[
+\section*{Sacrificing in order to trap a rook}
+The evaluation of a sacrifice to trap the opponent's rook requires careful analysis of the resulting position. \\
+]
+Consider the following positions
+\newchessgame[setfen=8/4p3/1p4k1/rb1Rp3/4P2P/P6K/1P6/8 w - - 0 1]
+\begin{center}
+\textbf{Example 4}
+\chessboard \\
+\end{center}
+White must play \mainline {1.Rxb5!} to save their position. After \mainline{1...Rxb5 2. b4}, Black's rook is trapped and the game is drawn.
+
+\newchessgame[setfen=6k1/4p3/1p4K1/rb2p3/1R2P3/P6P/1P6/8 w - - 0 1]
+\begin{center}
+\textbf{Example 5}
+\chessboard \\
+\end{center}
+White is lost in position, as after \mainline{1.Rxb5 Rxb5 2.b4}, Black can afford to sacrifice his rook back: \mainline {2...Rd5!}. The rook is cannot be taken due to the e-pawn. \\
+\end{multicols*}
+
+\newpage
+
+\begin{multicols*}{2}
+[
+\section*{Taking advantage of a trapped rook}
+When a rook is trapped, it can be taken advantaged of by:
+\begin{itemize}
+  \item Playing in the opposite wing (Example 6)
+  \item Winning the rook (Example 7)
+\end{itemize}
+]
+
+\newchessgame[setfen=7k/8/1p6/1r1p2K1/1P1P4/2P5/8/2B5 w - - 0 1]
+\begin{center}
+\textbf{Example 6}
+\chessboard \\
+\end{center}
+Black's rook is trapped, however White cannot directly win it. Instead White should play in the opposite wing until the rook is forced to move: \mainline{1.Kg6 Kg8 2.Bh6 Kh8 3.Kf7 Kh7 4. Bg7}. The rook is lost.
+
+\newchessgame[setfen=7k/8/1p3K2/1r1p4/1P1P4/2P5/1P6/8 w - - 0 1]
+\begin{center}
+\textbf{Example 7}
+\chessboard \\
+\end{center}
+White can simply head towards Black's rook in this position. \\
+\end{multicols*}
+
+\newpage
+\section*{Puzzles}
+
+\begin{center}
+\begin{tabular}{cc}
+\chessboard[setfen=r1k5/2p4p/p1P5/Pp2B3/1P6/8/7P/7K w - - 0 1] &
+\chessboard[setfen=8/1rB5/1p2k3/1Pp5/6p1/1NP1K1Pp/7P/8 w - - 0 1] \\
+1 & 2 \\
+
+\end{tabular}
+\end{center}
+
+\end{document}
