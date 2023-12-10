@@ -1,0 +1,174 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+\pgfplotsset{de/.style={
+    axis lines=middle,
+    xlabel={$D$},
+    ylabel={$E$},
+    xmin=0, xmax=5,
+    ymin=0, ymax=5,
+    ticks=none,
+    xlabel style={at=(current axis.right of origin), anchor=west},
+    ylabel style={at=(current axis.above origin), anchor=south},
+}}
+
+\title{Exploring Depth and Evaluation in Chess}
+\date{10 December 2023}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Aside from long-term strategical ability, the awareness of critical positions are essential for strong chess ability. The evaluation of these positions greatly change with deep calculation. This report aims to investigate how the computer evaluation of the position across different depths can inform us on the importance to study.
+
+\section{Diagrams}
+This report will heavily utilise diagrams to display the evaluation (E) of a position across different depths (D). Though depth is discrete, a continous graph will be used for aesthetics.
+
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[de]
+        \addplot [red, domain=0:5, samples=100] {sqrt(x)+1};
+        \addplot [green, domain=0:5, samples=100] {x/2+2};
+        \end{axis}
+
+        \node [right] at (6.9,3.7) {$M_1$};
+    \end{tikzpicture}
+\end{center}
+
+We will use a green line to denote the evaluation of the best move in the position. This would likely change across different depths. A red line will be used to denote the evaluation of a certain move. If we are looking at many moves, these may be labelled with $M$. If a red $\times$ is used, this indicates that the move was selected on some condition at that depth. Unless otherwise stated, this condition is the best move.
+
+\section{Theory}
+\subsection{Simple Graphs}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [red, domain=0:5, samples=100] {2.5};
+        \draw (axis cs:5,2.5) node[red] {$\times$};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+Figure 1 shows a position with a constant evaluation across the depth. The red move is the best move at depth $\times$. This generally means that intuitive play is sufficient for good play. Though rare, it is possible that there are exceptions.
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [red, domain=0:5, samples=100] {3/(1 + exp(-5*(x-3.5))) + 1};
+        \draw (axis cs:5,4) node[red] {$\times$};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [red, domain=0:5, samples=100] {-3/(1 + exp(-5*(x-3.5))) + 4};
+        \draw (axis cs:5,1) node[red] {$\times$};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [red, domain=0:2.5, samples=100] {1.5*exp(-2*(x-2.5)^2) + 2};
+        \addplot [red, domain=2.5:5, samples=100] {2.5*exp(-2*(x-2.5)^2) + 1};
+        \draw (axis cs:5,1) node[red] {$\times$};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [red, domain=0:2.5, samples=100] {-1.5*exp(-2*(x-2.5)^2) + 2.5};
+        \addplot [red, domain=2.5:5, samples=100] {-2.5*exp(-2*(x-2.5)^2) + 3.5};
+        \draw (axis cs:5,3.5) node[red] {$\times$};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [green, domain=0:5, samples=100] {2.5};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [green, domain=0:5, samples=100] {3/(1 + exp(-5*(x-3.5))) + 1};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [green, domain=0:5, samples=100] {-3/(1 + exp(-5*(x-3.5))) + 4};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [red, domain=0:5, samples=100] {1.5};
+        \addplot [green, domain=0:5, samples=100] {3.5};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [red, domain=0:5, samples=100] {3/(1 + exp(-5*(x-3.5))) + 1};
+        \addplot [green, domain=0:3.5, samples=100] {2.5};
+        \addplot [green, domain=3.5:5, samples=100] {3/(1 + exp(-5*(x-3.5))) + 1};
+        \draw (axis cs:5,4) node[red] {$\times$};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[de, clip=false]
+        \addplot [red, domain=0:5, samples=100] {-3/(1 + exp(-5*(x-3.5))) + 4};
+        \addplot [green, domain=0:3.5, samples=100] {2.5};
+        \addplot [green, domain=3.5:5, samples=100] {-3/(1 + exp(-5*(x-3.5))) + 4};
+        \draw (axis cs:5,1) node[red] {$\times$};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+\end{figure}
+
+
+
+
+\end{document}
