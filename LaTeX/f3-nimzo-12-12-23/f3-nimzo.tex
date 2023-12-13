@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage{xskak}
+\usepackage{listings}
+\usepackage{longtable}
+
+\title{f3 Nimzo Indian}
+\date{12 December 2023}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+\newchessgame
+\mainline{1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.f3}
+\begin{center}
+    \chessboard[inverse] \\
+\end{center}
+
+\section{Annotated Line: Lagno - Hou, Rostov-on-Don FIDE GP (Women) 2011 (excerpt)}
+
+\newchessgame[setfen=r2qr1k1/p4ppp/1pn2n2/3p4/2pP4/P1P1PPN1/1B1Q2PP/R4RK1 b - - 0 15, moveid=15b]
+
+\begin{center}
+    \chessboard[inverse] \\
+\end{center}
+\mainline{15...h5} $*I$ \vspace{0.2cm}\\
+Black's position appears dominant, but White can prepare a strong e4 pawn break. \medskip\\
+\mainline{16.Rae1} \vspace{0.2cm} \\
+\variation[invar]{16.Qf2!?} *C is also good, we will see the point in Black's response.
+\begin{center}
+    \chessboard[inverse] \\
+\end{center}
+\mainline[outvar]{16...Re6?} $*I$ \vspace{0.2cm} \\
+Black aims to stack on the e-file. However, Black had to calculate \variation[invar]{16...h4!} $*C$ \variation{17.Nf5 Ne7} and the pawn cannot be taken due to g5. Instead, if White had played \variation{16.Qf2!} $*C$ she could have prevented this idea due to \variation{16...h4 17.Nf5 Ne7 18.Nxh4 g5 19.Qg3!} \vspace{0.2cm} \\
+\mainline[outvar]{17.Qc2 h4 18.Nf5 g6 19.Nxh4}
+\begin{center}
+    \chessboard[inverse] \\
+\end{center}
+\mainline{19...Ng4?} $I*$ \vspace{0.2cm} \\
+It seems like an intuitive tactic that either wins a pawn or weakens the e4-square. \vspace{0.2cm} \\
+\mainline{20.fxg4 Qxh4 21.e4! Rae8 22.e5 Qxg4 23.Re3} \\
+\begin{center}
+    \chessboard[inverse] \\
+\end{center}
+Black is positionally lost.
+
+\section{Critical Wall: Sevian - Carlsen, MrDodgy Online Invitationals 2022}
+Evaluate the following critical moves that arised or could have arisen in a sharp blitz game between Samuel Sevian and Magnus Carlsen. Magnus played the rare \movecomment{5...Bf8} in the f3 Nimzo.
+
+\subsection{Puzzles}
+\begin{center}
+\begin{longtable}{cc}
+\chessboard[setfen=rnbqkb1r/pp3ppp/4pn2/2p5/2PPP3/P1N5/1P4PP/R1BQKBNR w KQkq - 0 8] &
+\chessboard[setfen=r2qr1k1/pp1n1ppp/5n2/2pPbN2/2P5/P2Q4/1P2N1PP/R1B2RK1 b - - 0 16] \\
+\movecomment{8.Bf4} & \movecomment{16...b5} \\
+
+\chessboard[setfen=r2qr1k1/p4ppp/3b1n2/1P3N2/2p5/P2nBQ2/1P2N1PP/R4RK1 w - - 0 21] &
+\chessboard[setfen=r3rbk1/p4ppp/5n2/1P1q1N2/2pN4/P2nBQ2/1P4PP/R4R1K w - - 0 23] \\
+\movecomment{21.Nxg7} & \movecomment{23.Qg3} and \movecomment{23.Nh6} \\
+
+\chessboard[setfen=r3rbk1/p4p1p/2N2np1/1q3N2/2p5/P2nB1Q1/1P4PP/R4R1K w - - 0 25] &
+\chessboard[setfen=r3rbk1/p4p1p/2N3p1/1q6/2pNn3/P2nB1Q1/1P4PP/R4R1K w - - 0 26] \\
+\movecomment{25.Nd6} & \movecomment{23.Qxg6} \\
+
+\chessboard[setfen=2r1rbk1/p4p1p/2N3p1/3q4/2pNn2Q/P2nBR2/1P4PP/5R1K b - - 0 28] &
+\chessboard[setfen=4rbk1/p1r2p2/2N3p1/3q3p/2pNn2Q/P2nB2R/1P4PP/5R1K w - - 0 30] \\
+\movecomment{28...Rxc6} & \movecomment{30.Rf5} \\
+\end{longtable}
+\end{center}
+\subsection{Analysis}
+
+\end{document}
