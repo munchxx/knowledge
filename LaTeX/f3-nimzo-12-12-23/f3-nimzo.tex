@@ -17,7 +17,7 @@
     \chessboard[inverse] \\
 \end{center}
 
-\section{Annotated Line: Lagno - Hou, Rostov-on-Don FIDE GP (Women) 2011 (excerpt)}
+\section{Annotated Line: Kateryna Lagno - Hou Yifan, Rostov-on-Don FIDE GP (Women) 2011 (excerpt)}
 
 \newchessgame[setfen=r2qr1k1/p4ppp/1pn2n2/3p4/2pP4/P1P1PPN1/1B1Q2PP/R4RK1 b - - 0 15, moveid=15b]
 
@@ -45,7 +45,7 @@ It seems like an intuitive tactic that either wins a pawn or weakens the e4-squa
 \end{center}
 Black is positionally lost.
 
-\section{Critical Wall: Sevian - Carlsen, MrDodgy Online Invitationals 2022}
+\section{Critical Wall: Samuel Sevian - Magnus Carlsen, MrDodgy Online Invitationals 2022}
 Evaluate the following critical moves that arised or could have arisen in a sharp blitz game between Samuel Sevian and Magnus Carlsen. Magnus played the rare \movecomment{5...Bf8} in the f3 Nimzo.
 
 \subsection{Puzzles}
@@ -69,5 +69,56 @@ Evaluate the following critical moves that arised or could have arisen in a shar
 \end{longtable}
 \end{center}
 \subsection{Analysis}
+
+\section{Critical Wall: David Anton Guijarro - Teimour Radjabov, 13th WchT Final (2022)}
+Evaluate the following critical moves.
+
+\begin{center}
+\chessboard[setfen=rnbq1rk1/pp1p1ppp/4pn2/2pP4/1bP1P3/2N2P2/PP4PP/R1BQKBNR b KQ - 0 6] \\
+\movecomment{6...Nxe4} \\
+\chessboard[setfen=rnbqr1k1/pp3ppp/3ppn2/2pP4/1bP1P3/2N2P2/PP2N1PP/R1BQKB1R w KQ - 2 8] \\
+\movecomment{8.Qd3} \\
+\chessboard[setfen=rnbqr1k1/p4ppp/3ppn2/1ppP4/1bP1P3/2N2PN1/PP4PP/R1BQKB1R w KQ - 0 9] \\
+\movecomment{9.Bg5} \\
+\chessboard[setfen=r1bqrnk1/p4ppp/3p1n2/2pPp3/1bB1P3/2N1BPN1/PPQ3PP/R4RK1 b - - 5 13] \\
+\movecomment{13...a5} \\
+\chessboard[setfen=r1bqr1k1/p4ppp/3p1nn1/b1pPp3/2B1P3/P1N1BPN1/1PQ3PP/R4RK1 w - - 1 15] \\
+\movecomment{15.Qf2} \\
+\chessboard[setfen=1r2r1k1/p2bq1np/3p1ppB/b1pPp3/2B1P1P1/P4PN1/1P2Q2P/1R3R1K w - - 4 24] \\
+\movecomment{24.a4} \\
+\chessboard[setfen=3b1rk1/p2b1rnp/3p1p1q/2pP2p1/2B1PRP1/P5N1/1P1BQ1KP/5R2 w - - 0 37] \\
+\movecomment{37.e5} \\
+\chessboard[setfen=3b1rk1/p2b1rn1/3p1p2/2pP2pp/2B1P1Pq/P5NP/1P1BQRK1/5R2 w - - 0 39] \\
+\movecomment{39.Rh1} \\
+\chessboard[setfen=8/2bb1k1r/3p1p2/3P1Pp1/1R4P1/5BB1/6K1/8 b - - 0 54] \\
+\movecomment{54.Kg8}
+\end{center}
+
+\section{Annotated Line: Shakhriyar Mamedyarov - Fabiano Caruana, 8th Sinquefield Cup 2021 (excerpt)}
+
+\newchessgame[setfen=rnbq1rk1/p4ppp/3p4/2pP3n/1pP5/5P2/PP1BNKPP/R2Q1B1R b - - 2 12, moveid=12b]
+
+\begin{center}
+    \chessboard[inverse] \\
+\end{center}
+
+\mainline{12...f5!} preventing g4. \\
+\mainline{13. Nf4 Nxf4 14. Bxf4 g5 15. Bc1 Nd7} \\
+\variation[invar]{15...f4} was likely stronger, smothering the bishops
+\begin{center}
+    \chessboard[inverse, setfen=rnbq1rk1/p6p/3p4/2pP2p1/1pP2p2/5P2/PP3KPP/R1BQ1B1R w - - 0 16] \\
+\end{center}
+\mainline[outvar]{16. f4 Nf6 17. Kg1} \\
+\begin{center}
+    \chessboard[inverse] \\
+\end{center}
+\mainline{17...Ne4} \\
+\variation[invar]{17...g4!} *C was much better. This is a very unintuitive move, and goes against the maxim to have an open position with a lead in development. However, White's position is extremely difficult to improve, while Black can dominate the e-file. \\
+\mainline[outvar]{18. fxg5 f4 19. Bd3 Qe7 20. Qe2 Bf5 21. Bxf4 Qg7 $6} *C
+\begin{center}
+    \chessboard[inverse] \\
+\end{center}
+
+The point is after \variation[outvar]{22.Bxe4 Bxe4 23.Qxe4 Rae8}, with the help of \movecomment{Qd4} White must return the bishop. However, White can be very careful with \variation[outvar]{22.Bxe4 Bxe4 23.Bg3! $14} and the defence is adequate.
 
 \end{document}
