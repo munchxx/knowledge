@@ -1,0 +1,112 @@
+\documentclass{article}
+\usepackage{xskak}
+\usepackage{epigraph}
+
+\title{Critical Chess: The English Benoni}
+\date{17 December 2023}
+
+\newcommand{\fen}[2]{\newchessgame[setfen=#1, moveid=#2]}
+
+\newcommand{\move}[1]{\movecomment{#1}}
+\newcommand{\cb}{\begin{center}\chessboard\end{center}}
+
+% Start: 12:06am 17/12/23
+
+\begin{document}
+\tableofcontents
+\maketitle
+\epigraph{"I know I know nothing"}{Socrates}
+
+\section{Introduction}
+This article aims to make the reader a 2600+ player in the English Benoni. This arises after: \\
+
+\newchessgame
+\mainline{1. c4 e6 2. g3 d5 3. Bg2 Nf6 4. Nf3 Be7 5. O-O O-O 6. b3 c5 7. Bb2 Nc6 8. e3 d4 9. exd4 cxd4 10. Re1} \\
+\cb
+
+An interesting fact: Stockfish 16 at depth 30 evaluates the position as -0.1. This is irrelevant in real games compared to superior knowledge of critical ideas.
+
+We will delve into many games and highlight ONE or TWO moment per game. We will abstract these ideas and discuss factors of the position that affect its suitability.
+
+The issue with mainstream methods of training is they teach a few ideas deeply rather than many ideas more lightly. This ``deep'' notion is unfortuantely not a exploration of the nuances in the position that can affect the evaluation of the idea, but rather a long line of isolated moves that are only suited for the exact position. To address this, the section ``Ideas in Games'' is devoted solely to the identification of ideas - without a focus on evaluation or calculation.
+
+\section{Ideas in Games}
+
+
+\subsection{Cordova, Emilio - Banos, Oscar Francisco, Montcada op-A 24th (2016)}
+
+\subsubsection{Sacrifice for weaknesses}
+
+This position arises after the \move{10...Ne8} line.
+\newchessgame[setfen=r1bqnrk1/pp2b1pp/5p2/8/2Pp1p2/1P4P1/PB1P2BP/RN1QR1K1 w - - 0 15, moveid=15w]
+\cb
+
+\mainline{15.Qf3 $5} *C \\
+Equally as popular as \move{15.gxf4}, this move will eventually allow White to win the d4-pawn. A queen trade will likely occur, which favours White's domination over the h1-a8 diagonal.
+
+\subsection{Adly, Ahmed - Omar, Noaman, Olympiad-40 (2012)}
+\subsubsection{}
+
+\fen{r1bqr1k1/pp3ppp/2n1pn2/2b5/2Pp4/1P3NP1/PBNP1PBP/R2QR1K1 b - - 7 12}{12b}
+
+White has finished a \move{Nb1-a3-c2} maneuver to control b4 and d4. 
+\cb
+Though rare, the move \mainline{12...d3} *C is good.
+
+\subsubsection{}
+
+\fen{r1bqr1k1/1p1n1ppp/4p3/p1b1R3/2Pp4/1P4P1/PBNP1PBP/R2Q2K1 w - - 1 15}{15w}
+\cb
+\mainline{15.Rxc5} *C \\
+must be considered. It is theoretically the best move here, however simplifications make it easier for Black. \move{15.Re1} was played in the game is more interesting.
+
+\subsection{Pantsulaia, Levan - Cuenca Jimenez, Jose Fernando, Chess24 Banter Blitz Cup (2019)}
+
+\subsubsection{}
+\fen{r1bq1rk1/1p2b1pp/2n2p2/p3p3/2Pp2n1/PP1P1NP1/1B1N1PBP/R2QR1K1 w - - 0 14}{14w}
+\cb
+\mainline{14.b4} *C \\
+The point is after \\
+\mainline{14...cxb4 15.Qb3} \\
+White will have the usual Benko Gambit play.
+
+\subsubsection{}
+\fen{2r1r1k1/1p1qbnpp/2n1bp2/p3p3/2PpNP1P/PP1P2P1/2Q1R1BN/2B1R1K1 b - - 0 23}{23b}
+\cb
+Here, \mainline{23...b5} *C should be considered.
+
+\subsection{Wen, Yang - Li, Yankai, CHN-chT (2019)}
+\subsubsection{}
+\fen{1rbq1rk1/ppn1b1pp/5p2/8/2Pp1P2/1P1P4/PB1N2BP/R2QR1K1 b - - 0 17}{17b}
+\cb
+Black should not play \mainline{17...Ne6} due to \mainline{18.Bd5}
+
+\subsubsection{}
+\fen{1r3rk1/ppn3pp/3q1p2/2b5/2PpPP2/1P6/PB4BP/R2Q1R1K w - - 3 22}{22w}
+\cb
+\mainline{22.Qh5} is strong
+
+\subsection{Moussard, Jules - Unuk, Laura, PRO League Stage (2019)}
+\subsubsection{}
+\fen{r1bqrbk1/pp1n1ppp/4p3/4R3/2Pp4/1P1P2P1/PB3PBP/RN1Q2K1 w - - 1 14}{14w}
+\cb
+\mainline{14.Re2} *C
+
+\subsubsection{}
+\fen{r1bqrbk1/pp1n1ppp/8/4p3/2Pp4/1P1P2P1/PB3PBP/RN1QR1K1 w - - 0 15}{15w}
+\cb
+\mainline{15.Na3} *I \mainline{15...Nc5 16.b4 Na6}
+
+\subsection{Gashimov, Vugar - Zinchenko, Yaroslav, Wch U20 (2005)}
+\subsubsection{}
+\fen{3rr1k1/1p1b1ppp/1q2pn2/p1b1R3/2Pp4/PP1P1NP1/1B3PBP/R3Q1K1 w - - 7 18}{18w}
+\cb
+\mainline{18.Rxc5} *I \\
+\variation{18.b4} *C \variation{18...axb4 19.axb4 Bxb4 20.Bxd4} is strong, though a draw is likely. \\
+\variation{18.Rb1} is the best fighting move.
+
+
+
+
+
+\end{document}
