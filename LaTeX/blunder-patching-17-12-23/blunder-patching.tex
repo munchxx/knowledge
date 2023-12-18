@@ -4,6 +4,7 @@
 \usepackage{epigraph}
 \usepackage{multicol}
 \usepackage{amsmath}
+\usepackage{mdframed}
 
 \newcommand{\cb}[2][]{
   {
@@ -56,50 +57,84 @@ b3?? d6 and Black's attack is unstoppable. Predicted by Maia.
 
 The purpose of is article of documenting a decline in blunders.
 
-\section{Defining the Blunder Metric, $\beta$}
-We must start with measuring blunders. The alternative, to spur up a unmotivated method, will be a shot in the dark. Let $\beta$ be our blunder metric for a game.
-\subsection{What is a blunder?}
-Instead of finding a definition that is universally correct, we must find one that is useful. Too general, and it will be difficult for targeted training to improve; too specific, and improving it will not help much. We will use the Socratic method to fully understand what a blunder truly is.
+\section{Measuring Blunders}
+\subsection{Defining the blunder metric}
+We must start with measuring blunders. This allows us to both see whether we have improved and is useful as feedback to refining our methods.
 
-If an opponent makes a mistake, we do not seize the opportunity, and the position returns to a similar evaluation, have we ``blundered''? The universal definition of a blunder, a loss in centipawns beyond a certain threshold, $\theta$ (usually 150 or 200 centipawns), will answer this question as a yes. Though useful in its own right, separating seizing oppourtunities and blundering is highly useful for training. Consider this: the opponent has allowed an opportunity, however it is sharp and difficult to calculate. You are in a position where you must not lose, and thus you take the safe route and pass the opportunity. Avoiding high degrees of calculation for a safer option should not be ``blundering''.
-
-If we play a sharp move, and have a hole in our deep calculations, have we ``blundered''? Yes, and this is the very essence of a blunder. A blunder is something missed, and our goal in training is finding them.
-
-Should the blunder metric be lower if the position is less prone to blunders, or should there be an adjustment that allows us to compare games together? In the traditional sense, more sharp positions will have more blunders, which without adjustment, will lead to a higher $\beta$. Seemingly, this will facilate a dangerous strategy where we avoid sharp positions. However, this fulfils the goal - to focus less on blundering and allow for strategical improvement. When we combine with other metrics of a game, we may entice more active play.
-
-Should the blunder metric be lower if many smaller mistakes have equivalent centipawn loss to one larger mistake. Many smaller mistakes are more a form of strategical loss, rather than a blunder. Nassim Taleb measures fragility as the acceleration of harm by a unit change on something. We will apply the same principle, and measure blunders with accelerating evaluation. We will apply some weighting towards greater centipawn loss.
-
-Should a blunder be twice as worse for a $\theta=-300$ move compared to a $\theta=-600$ move
-
-\subsection{Calculating $\beta$ mathematically}
-We have the following data of each move. All evaluations are relative to whoever is playing the move.
+We will define a ``blunder'' as a position where, if $E_0$ was the evaluation before and $E_1$ was the evaluation after:
+\[E_1-E_0\leq \frac{1}{800}{E_0}^2+100\]
+This has the simple properties that:
 \begin{itemize}
-  \item Evaluation of previous position at high depth ($H_0$)
-  \item Evaluation of previous position at low depth ($L_0$)
-  \item Evaluation of move at high depth ($H_1$)
-  \item Evaluation of move at low depth ($L_1$)
-  \item Move by Maia \footnote{Maia are weights for the neural network chess engine Lc0. It plays like a human.}
+  \item A negative change of $\geq100$ centipawns from equal is a blunder.
+  \item A negative change of $\geq150$ centipawns from $\pm200$ centipawns is a blunder.
+\end{itemize}
+The blunder metric for a game, which we will refer to as $\beta$, is simply the number of blunders made in that game.
+
+\subsection{Calculating $\beta$ in my games}
+We will develop a program in Python to automate this process. Development took just 46 minutes, partly due to the highly useful chesstools module. I average $\beta$ over games in the within chess time control yielding the following results:
+\begin{itemize}
+  \item In OTB standard games, $E[\beta]=1.38$
+  \item In online 3+2 games, $E[\beta]=2.12$
 \end{itemize}
 
-The traditional blunder metric on move M is \[\beta_M=E_{H_0}-E_{H_1}\]. Commonly known as centipawn loss, the metric for the whole game will be \[\beta=\sum \frac{E_{H_0}-E_{H_1}}{n}\], where $n$ is the number of moves. We will apply the following guidelines:
+In comparison, 
 \begin{itemize}
-  \item Maximum $\frac{d\beta}{d\Delta E_H}$ at $E_H = 200$
-  \item Maximum $\beta=100$
-  \item Minimum $\beta=0$, and occurs when $d\Delta E_H\leq 0$.
+  \item In standard games, GMs have an $E[\beta]=1.23$
+  \item In rapid games, GMs have an $E[\beta]=1.70$
 \end{itemize}
 
-We can write 
-\begin{equation*}
-\beta =
-\begin{cases}
-\frac{100 (-1 + e^{\Delta E_H/100})}{e^2 + e^{\Delta E_H/100}} & \text{if } \Delta E_H > 0 \\
-0 & \text{if } \Delta E_H \leq 0 
-\end{cases}
-\end{equation*}
+\section{Why the Difference?}
+\subsection{Blunder Theory - Part I}
+We seek to understand why blunders occur, in order to formulate a plan for rapid lowering of $E[\beta]$. We will tread very carefully, as minute oversights can be decisive.
 
-Now we have to make this useful for blunders of a whole game. Instead of taking the average of all moves, which will show a lot of strategical losses, we will simply take the average of the worst few moves. How many moves? We will arbitrarily select 5.
+What causes a blunder? An effective strategy to answer this question is the work backwards from the blunder.
+\setchessboard{boardfontsize=20pt}
+\cb[f]{r2qr1k1/1b4pp/ppn2p2/3p3Q/B1pPn2N/P1P1P2P/1B3PP1/3R1RK1 b - - 0 19}
+Position 1 - In this position, I played the disastrous 19...Qe7?? I have failed to seen the queen attacking the d5 pawn.
 
-\subsection{Programming}
+\cb[f]{1r6/5k1p/3P1pp1/1Pp5/p7/P2RP2P/5PP1/5K2 b - - 0 35}
+Position 2 - Later in the game, I reached this rook endgame, which is generally losing. I blundered with the  ``intuitive'' Ke6? when instead Ke8! would have offered a better chance. A small amount of calculation would have seen the king blockading the d-pawn while the rook is active. Meanwhile, Ke6 d7 Rd8 is worse as the pawn endgame is trivially lost.
+
+\cb[f]{rn1qkb1r/5ppp/p3p3/3p4/3Nn3/2N3P1/PP3P1P/R1BQR1K1 b kq - 0 13}
+Position 3 - This moment was very strange, as Black is seemingly far better. However, I played the intuitive Nxc3?? to which the line Qh5! was completely winning.
+
+\cb[f]{r2q1rk1/pb1nbppp/1pp1pn2/3p4/2PP4/1PN2NP1/P1QBPPBP/R2R2K1 b - - 0 11}
+Position 4 - In this position I blundered with the seemingly fine Bb4? which was met by Nxd5! winning a pawn.
+
+\cb[f]{r2qk2r/p2n1ppp/2pb1n2/1p1p1bB1/3P4/1QN1PN2/PP2BPPP/2R1K2R b Kkq - 0 10}
+Position 5 - I played the intuitive Nb6? in this position, which could have (eventually played later) been met by Ne5! Only a small amount of calculation can reveal how dangerous this position is for Black, because after Rc8 there is the crushing e4!
+
+What new information can we gain? All these five positions involved ``missing'' a move or a line. The amount missed and the amount attempted to calculate differs, however the required amount of calculation always falls below the amount missed.
+
+\subsection{Blunder Theory - Part II}
+We will form this idea in technical terms, in order to fully understand its limits. Let $\phi$ be the threshold in the game tree that must be exceeded by calculation, $C$, in order to divert from the blunder. When $C<\phi$ we ``will play'' a blunder.
+
+Before expanding on these terms, we shall first discuss the role of other factors aside from calculation.
+\begin{itemize}
+  \item Randomness - We may play a move based upon whim even though we recognise that we must calculated. This may likely work out to some degree, or have a great loss in chances. Chess is a highly antifragile game, as missing critical lines can accelerate harm. The simple rule is to avoid playing moves without sufficient calculation. Treat failing to calculate is equivalent to playing a blunder, whether it is due to time trouble or not.
+  \item Psychological - We may calculate vaguely that Black has some resource, and play it anyway. Though it seems awkward to study chess through psychology, it is highly important to avoiding these losses. Conversely, we may calculate an idea to succession, but fail to execute it, possibly due to afraidness. Not trusting yourself is equivalent to blundering. 
+\end{itemize} 
+Returning to calculation, we can explore further. The importance of focusing on the nuances of $\phi$ greatly outweights calculation skill. Most tactics do not require great $\phi$ to calculate, and two books focused primarily on calculation techniques would suffice.
+
+\section{How do we lower $E[\beta]$?}
+\subsection{The Method}
+I claim the best method is to: \\
+\begin{mdframed}
+From a random game position, attempt to identify tactics that may arise in the future, and attempt to identify $\phi$. Grade using a program that identifies the entirety of $\phi$, and examine tactics missed.
+\end{mdframed}
+
+The proof is as follows:
+By first attempting to identify $\phi$, we define what we know. By using a random game position, we eliminate the artificial selection of positions where an immediate tactic exists. By identifying ALL tactics, we eliminate the artificial nature of finding just one. By looking at a reference - $\phi$ generated by a computer - we can examine all $\phi$, and deduce the $\phi$ we do not know. This is the only region where learning is achieved, and focusing solely on it will lead to the most effective training.
+\subsection{The Program}
+$\phi$ is defined such that there
+\begin{itemize}
+  \item (a) does not exist a terminal node such that there are no minute changes in the position that will greatly worsen the evaluation relative to the student.
+  \item (b) does not exist a principal variation following a terminal node such that (a) is satisfied.
+\end{itemize}
+
+This is almost 
+
+
 
 
 \end{document}
