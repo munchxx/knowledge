@@ -1,0 +1,105 @@
+\documentclass{article}
+
+\usepackage{xskak}
+\usepackage{epigraph}
+\usepackage{multicol}
+\usepackage{amsmath}
+
+\newcommand{\cb}[2][]{
+  {
+  \par
+  \centering
+  \if#1f
+    {\chessboard[setfen=#2, inverse]}
+  \else
+    \chessboard[setfen=#2]
+  \fi
+  \par
+  }
+}
+
+\title{Blunder Patching - A Journal}
+\date{17 December 2023}
+% Start 11:18pm 17/12/2023
+
+\begin{document}
+\maketitle
+\epigraph{I know I know nothing}{Socrates}
+
+\section{Introduction}
+Today I made many *I moves.
+\setchessboard{boardfontsize=16pt}
+\begin{multicols*}{2}
+
+\cb{3r1rk1/1b1pqppp/p1n1p1n1/1p2P3/4N3/1B3N2/PP2QPPP/3R1RK1 b - - 5 15}
+After thought, I played Ncxe5?? to which after Nxe5 Nxe5 Nd6 I lost a piece.
+
+\cb{r4r1k/1pp1b1pp/p1npBnq1/4pbN1/8/2NP4/PPP2PPP/R1BQR1K1 w - - 2 13}
+Qf3?? Nd4 winning a piece
+
+\cb[f]{r1b2rk1/2q1bppp/p4n2/2p1P3/Np2P3/4B1PP/PPP3B1/R2Q1RK1 b - - 0 15}
+Qxe5? Bf4 Qe6 d5 winning material. Instead I had to play Nd7 *C
+
+\cb[f]{r2q1rk1/1b1nbppp/2p1pn2/1p4B1/1P1P4/1QNBPN2/5PPP/R4RK1 b - - 0 14}
+Nd5? Missed by my opponent, there was the positionally dominating Rxa8 Bxa8 Bxe7 Qxe7 Nxd5 exd5 Ra1. Instead, c5! *C was strong.
+
+\cb{r1bqk2r/pp2ppbp/2n3p1/1B6/3pP3/2P1B3/P3NPPP/R2QK2R w KQkq - 0 10}
+cxd4?? Qa5 winning the bishop. Predicted by Maia.
+
+\cb[f]{r1bq4/pp1r3k/2p1Q1pp/4P3/3P2P1/P1R5/1P3PP1/3R2K1 b - - 0 33}
+Rxd4?? Rxd4 Qxd4 Qf7 with a crushing attack. Predicted by Maia.
+
+\cb{r1bqk2r/bpppnpp1/p7/3Pn3/2P4p/2N3P1/PP2NPBP/R1BQ1RK1 w kq - 1 11}
+b3?? d6 and Black's attack is unstoppable. Predicted by Maia.
+
+\end{multicols*}
+
+The purpose of is article of documenting a decline in blunders.
+
+\section{Defining the Blunder Metric, $\beta$}
+We must start with measuring blunders. The alternative, to spur up a unmotivated method, will be a shot in the dark. Let $\beta$ be our blunder metric for a game.
+\subsection{What is a blunder?}
+Instead of finding a definition that is universally correct, we must find one that is useful. Too general, and it will be difficult for targeted training to improve; too specific, and improving it will not help much. We will use the Socratic method to fully understand what a blunder truly is.
+
+If an opponent makes a mistake, we do not seize the opportunity, and the position returns to a similar evaluation, have we ``blundered''? The universal definition of a blunder, a loss in centipawns beyond a certain threshold, $\theta$ (usually 150 or 200 centipawns), will answer this question as a yes. Though useful in its own right, separating seizing oppourtunities and blundering is highly useful for training. Consider this: the opponent has allowed an opportunity, however it is sharp and difficult to calculate. You are in a position where you must not lose, and thus you take the safe route and pass the opportunity. Avoiding high degrees of calculation for a safer option should not be ``blundering''.
+
+If we play a sharp move, and have a hole in our deep calculations, have we ``blundered''? Yes, and this is the very essence of a blunder. A blunder is something missed, and our goal in training is finding them.
+
+Should the blunder metric be lower if the position is less prone to blunders, or should there be an adjustment that allows us to compare games together? In the traditional sense, more sharp positions will have more blunders, which without adjustment, will lead to a higher $\beta$. Seemingly, this will facilate a dangerous strategy where we avoid sharp positions. However, this fulfils the goal - to focus less on blundering and allow for strategical improvement. When we combine with other metrics of a game, we may entice more active play.
+
+Should the blunder metric be lower if many smaller mistakes have equivalent centipawn loss to one larger mistake. Many smaller mistakes are more a form of strategical loss, rather than a blunder. Nassim Taleb measures fragility as the acceleration of harm by a unit change on something. We will apply the same principle, and measure blunders with accelerating evaluation. We will apply some weighting towards greater centipawn loss.
+
+Should a blunder be twice as worse for a $\theta=-300$ move compared to a $\theta=-600$ move
+
+\subsection{Calculating $\beta$ mathematically}
+We have the following data of each move. All evaluations are relative to whoever is playing the move.
+\begin{itemize}
+  \item Evaluation of previous position at high depth ($H_0$)
+  \item Evaluation of previous position at low depth ($L_0$)
+  \item Evaluation of move at high depth ($H_1$)
+  \item Evaluation of move at low depth ($L_1$)
+  \item Move by Maia \footnote{Maia are weights for the neural network chess engine Lc0. It plays like a human.}
+\end{itemize}
+
+The traditional blunder metric on move M is \[\beta_M=E_{H_0}-E_{H_1}\]. Commonly known as centipawn loss, the metric for the whole game will be \[\beta=\sum \frac{E_{H_0}-E_{H_1}}{n}\], where $n$ is the number of moves. We will apply the following guidelines:
+\begin{itemize}
+  \item Maximum $\frac{d\beta}{d\Delta E_H}$ at $E_H = 200$
+  \item Maximum $\beta=100$
+  \item Minimum $\beta=0$, and occurs when $d\Delta E_H\leq 0$.
+\end{itemize}
+
+We can write 
+\begin{equation*}
+\beta =
+\begin{cases}
+\frac{100 (-1 + e^{\Delta E_H/100})}{e^2 + e^{\Delta E_H/100}} & \text{if } \Delta E_H > 0 \\
+0 & \text{if } \Delta E_H \leq 0 
+\end{cases}
+\end{equation*}
+
+Now we have to make this useful for blunders of a whole game. Instead of taking the average of all moves, which will show a lot of strategical losses, we will simply take the average of the worst few moves. How many moves? We will arbitrarily select 5.
+
+\subsection{Programming}
+
+
+\end{document}
